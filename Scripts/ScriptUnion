@@ -1,0 +1,10 @@
+--Mostrar los nombres de los platos de dos categorías distintas
+SELECT nombreplato FROM plato WHERE idcategoria = 1
+UNION
+SELECT nombreplato FROM plato WHERE idcategoria = 2;
+
+--Listar todos los clientes distintos que han realizado compras en el último mes y aquellos que han realizado pedidos en el restaurante y han sido atendidos pornun empleado en el mismo período
+SELECT idusuariocliente FROM compra WHERE fechacompra >= CURRENT_DATE - INTERVAL '1 MONTH' AND idusuarioempleado IS NULL
+UNION
+SELECT idusuariocliente FROM compra WHERE fechacompra >= CURRENT_DATE - INTERVAL '1 MONTH' AND idusuarioempleado IS NOT NULL;
+

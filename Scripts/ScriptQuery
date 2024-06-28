@@ -1,0 +1,36 @@
+select nombreUsuario, nombreRol from Usuario, Rol where Usuario.idRol=Rol.idrol and nombreRol='Cliente';
+
+select nombreRestaurante, direccionRestaurante from Restaurante;
+
+select nombreplato, precioplato, Nombrerestaurante
+from plato inner join restaurante on restaurante.idrestaurante= plato.idrestaurante
+where plato.idrestaurante = 2
+
+select  sum((cantidadPlato*precioPlato*(1-descuentoCompra)*(1+ivaCompra))) 
+from Usuario u
+INNER JOIN Compra c ON u.IdUsuario = c.idUsuarioCliente
+INNER JOIN PlatoCompra pc ON c.IdCompra = pc.IdCompra
+INNER JOIN Plato p ON pc.idPlato = p.idPlato
+where u.identificacionUsuario='123456789';
+
+SELECT r.nombrerestaurante, AVG(com.valoracioncompra) AS promediovaloraciones
+FROM restaurante r
+INNER JOIN plato p ON r.idrestaurante = p.idrestaurante
+INNER JOIN platocompra pc ON p.idplato = pc.idplato
+INNER JOIN compra com ON pc.idcompra = com.idcompra
+WHERE r.idrestaurante = 1
+GROUP BY r.nombrerestaurante
+
+
+select u.nombreusuario, COUNT(*) AS numero_compras
+from usuario u
+join compra c on u.idusuario = c.idUsuarioCliente
+join mediopago mp ON c.idUsuarioCliente = mp.idmediopago
+where mp.nombremediopago = 'Tarjeta Crédito'
+group by u.nombreusuario
+having count(*)> 1 
+
+select avg(valoracioncompra) as valoracion, nombreRestaurante 
+from compra, platoCompra, plato, restaurante
+order by valoracion desc
+group by nombreRestaurtane

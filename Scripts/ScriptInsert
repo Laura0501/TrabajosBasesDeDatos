@@ -1,0 +1,90 @@
+-- Ejemplos para la tabla Departamento
+INSERT INTO Departamento (idDepartamento, nombreDepartamento) VALUES
+('001', 'Antioquia'),
+('002', 'Valle del Cauca'),
+('003', 'Bogotá');
+
+-- Ejemplos para la tabla Ciudad
+INSERT INTO Ciudad (idCiudad, nombreCiudad, idDepartamento) VALUES
+('C001001', 'Medellín', '001'),
+('C001002', 'Envigado', '001'),
+('C002001', 'Cali', '002'),
+('C002002', 'Palmira', '002'),
+('C003001', 'Bogotá D.C.', '003');
+
+-- Ejemplos para la tabla Restaurante
+INSERT INTO Restaurante (nitRestaurante, nombreRestaurante, direccionRestaurante, telefonoRestaurante, idCiudad) VALUES
+('1234567890', 'Restaurante A', 'Calle 123', '123-456-7890', 'C001001'),
+('9876543210', 'Restaurante B', 'Avenida 456', '987-654-3210', 'C002001'),
+('5432167890', 'Restaurante C', 'Carrera 789', '543-216-7890', 'C003001');
+
+-- Ejemplos para la tabla Categoria
+INSERT INTO Categoria (nombreCategoria) VALUES
+('Desayuno'),
+('Almuerzo'),
+('Cena');
+
+-- Ejemplos para la tabla Plato
+INSERT INTO Plato (nombrePlato, descripcionPlato, precioPlato, idRestaurante, idCategoria) VALUES
+('Huevos Revueltos', 'Huevos revueltos con jamón y queso', 8.99, 1, 1),
+('Arroz con Pollo', 'Arroz con trozos de pollo y verduras', 12.99, 2, 2),
+('Salmón a la Parrilla', 'Filete de salmón a la parrilla con ensalada', 18.99, 3, 3);
+
+-- Ejemplos para la tabla CategoriaIngrediente
+INSERT INTO CategoriaIngrediente (nombreCategoriaIngrediente) VALUES
+('Proteína'),
+('Vegetal'),
+('Lácteo');
+
+-- Ejemplos para la tabla Ingrediente
+INSERT INTO Ingrediente (nombreIngrediente, idCategoriaIngrediente, cantidadIngrediente, unidadMedidaIngrediente,idrestaurante) VALUES
+('Jamón', 1, 100, 'gramos',1),
+('Arroz', 2, 500, 'gramos',1),
+('Salmón', 1, 150, 'gramos',1),
+('Jamón zenú', 1, 100, 'gramos',2),
+('Arroz diana', 2, 500, 'gramos',2),
+('Salmón 500', 1, 150, 'gramos',2),
+('Jamón pietran', 1, 100, 'gramos',3),
+('Arroz roa', 2, 500, 'gramos',3),
+('Salmón 250', 1, 150, 'gramos',3);
+
+-- Ejemplos para la tabla MedioPago
+INSERT INTO MedioPago (nombreMedioPago) VALUES
+('Tarjeta de Crédito'),
+('Efectivo'),
+('Transferencia Bancaria');
+
+-- Ejemplos para la tabla Rol
+INSERT INTO Rol (nombreRol) VALUES
+('Cliente'),
+('Empleado'),
+('Administrador');
+
+-- Ejemplos para la tabla TipoIdentificacion
+INSERT INTO TipoIdentificacion (nombreTipoIdentificacion) VALUES
+('Cédula de Ciudadanía'),
+('Tarjeta de Identidad'),
+('Pasaporte');
+
+-- Ejemplos para la tabla Usuario
+INSERT INTO Usuario (identificacionUsuario, idTipoIdentificacion, nombreUsuario, fecharNacimientoUsuario, idRol, correoElectronicoUsuario, claveUsuario) VALUES
+('123456789', 1, 'Juan Pérez', '1990-05-15', 1, 'juan@example.com', 'contra123'),
+('987654321', 1, 'María Gómez', '1988-10-20', 1, 'maria@example.com', 'clave456');
+
+-- Ejemplos para la tabla Direccion
+INSERT INTO Direccion (direccion, direcciondefecto, idUsuario, idCiudad) VALUES
+('Calle 1', '1', 1, 'C001001'),
+('Avenida 2', '0', 1, 'C001001'),
+('Carrera 3', '0', 2, 'C002001');
+
+-- Ejemplos para la tabla Compra
+INSERT INTO Compra (idUsuarioCliente, idUsuarioEmpleado, fechaCompra, direccionDomicilio, descuentoCompra, ivaCompra, valoracionCompra, idMedioPago) VALUES
+(1, 2, '2023-08-26 10:30:00', 'Calle 1', 0.1, 0.19, 5, 1),
+(1, 2, '2023-08-29 10:30:00', 'Calle 1', 0.1, 0.19, 5, 1),
+(2, 2, '2023-08-25 15:45:00', 'Avenida 2', 0.05, 0.19, 4, 2);
+
+-- Ejemplos para la tabla PlatoCompra
+INSERT INTO PlatoCompra (idCompra, idPlato, cantidadPlato) VALUES
+(3, 1, 2),
+(3, 2, 1),
+(3, 3, 1);

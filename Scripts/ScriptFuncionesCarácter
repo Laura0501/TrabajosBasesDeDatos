@@ -1,0 +1,23 @@
+--Combina los nombres de restaurantes y ciudades en una sola cadena.
+SELECT CONCAT(nombreRestaurante, ', ', nombreCiudad) AS restaurante_ciudad
+FROM Restaurante
+INNER JOIN Ciudad ON Restaurante.idCiudad = Ciudad.idCiudad;
+
+--Convierte los nombres de platos a mayúsculas.
+SELECT nombrePlato, UPPER(nombrePlato) AS nombre_mayusculas
+FROM Plato;
+
+--Calcula la cantidad de caracteres en la descripción de cada plato.
+SELECT nombrePlato, LENGTH(descripcionPlato) AS caracteres_descripcion
+FROM Plato;
+
+--Reemplaza 'Calle' con 'Avenida' en las direcciones de restaurantes.
+SELECT direccionRestaurante, REPLACE(direccionRestaurante, 'Calle', 'Avenida') AS direccion_modificada
+FROM Restaurante;
+
+--Encuentra todos los platos que contienen la palabra "pollo" en su nombre.
+SELECT nombrePlato
+FROM Plato
+WHERE nombrePlato LIKE '%Pollo%';
+
+

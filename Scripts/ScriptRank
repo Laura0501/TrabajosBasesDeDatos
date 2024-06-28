@@ -1,0 +1,46 @@
+--Platos más caros:
+SELECT nombrePlato, precioPlato, RANK() OVER (ORDER BY precioPlato DESC) AS ranking_precio_descendente
+FROM Plato;
+   
+--Clientes con mayor gasto:
+SELECT nombreUsuario, totalGasto, RANK() OVER (ORDER BY totalGasto DESC) AS ranking_gasto
+FROM (SELECT u.nombreusuario, c.idUsuarioCliente, SUM(p.precioPlato * pc.cantidadPlato) AS totalGasto 
+	  FROM usuario u
+	  JOIN Compra c ON u.idusuario = c.idusuariocliente
+	  JOIN platoCompra pc ON c.idcompra = pc.idcompra
+	  JOIN plato p ON p.idplato = pc.idplato
+	  GROUP BY c.idUsuarioCliente, u.nombreusuario) AS gastos_clientes;   
+
+--Ranking de ciudades por ingresos:
+SELECT nombreciudad, ingresoAnual, RANK() OVER (ORDER BY ingresoAnual DESC) AS ranking_ingresos
+FROM (SELECT cd.nombreciudad, SUM(p.precioPlato * pc.cantidadPlato) AS ingresoAnual
+	  FROM Compra c
+	  JOIN platoCompra pc ON c.idcompra = pc.idcompra
+	  JOIN plato p ON p.idplato = pc.idplato
+	  JOIN restaurante r ON p.idrestaurante = r.idrestaurante
+	  JOIN ciudad cd ON r.idciudad = cd.idciudad
+	  GROUP BY cd.nombreciudad) AS gastoAnual;   
+
+--Puntuación de restaurantes por valoración:
+SELECT nombrerestaurante,valoracion, RANK() OVER (ORDER BY valoracion DESC) AS ranking_valoracion 
+FROM(SELECT r.nombrerestaurante, AVG(c.valoracioncompra) AS valoracion
+FROM compra c
+JOIN platocompra pc ON c.idcompra= pc.idcompra
+JOIN plato p ON pc.idplato=p.idplato
+JOIN restaurante r On p.idrestaurante=r.idrestaurante
+GROUP BY r.nombrerestaurante) AS promediovaloracion 
+
+--Clasificación de empleados por antigüedad:
+SELECT nombreusuario,fechacompra, RANK() OVER(ORDER BY c.fechacompra ASC) AS ranking_antiguedad
+FROM usuario u
+	 JOIN compra c ON u.idusuario=c.idusuarioempleado
+
+
+--Clientes con menor gasto
+SELECT nombreUsuario, totalGasto, ROW_NUMBER() OVER (ORDER BY totalGasto ASC) AS ranking_gasto
+FROM (SELECT u.nombreusuario, c.idUsuarioCliente, SUM(p.precioPlato * pc.cantidadPlato) AS totalGasto 
+	  FROM usuario u
+	  JOIN Compra c ON u.idusuario = c.idusuariocliente
+	  JOIN platoCompra pc ON c.idcompra = pc.idcompra
+	  JOIN plato p ON p.idplato = pc.idplato
+	  GROUP BY c.idUsuarioCliente, u.nombreusuario) AS gastos_clientes; 

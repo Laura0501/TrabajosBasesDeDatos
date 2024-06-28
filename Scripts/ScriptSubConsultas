@@ -1,0 +1,16 @@
+--Obtener los platos que han sido pedidos por el cliente con ID 1
+SELECT nombreplato
+FROM plato
+WHERE idplato IN (SELECT idplato 
+				  FROM platoCompra 
+				  WHERE idCompra IN (SELECT idcompra
+									  FROM compra
+									  WHERE idusuariocliente = 1));
+--Encontrar los restaurantes que ofrecen platos con un precio superior al promedio de todos los platos
+SELECT nombreRestaurante 
+FROM restaurante
+WHERE idRestaurante IN (SELECT idRestaurante
+						FROM plato
+						WHERE precioPlato > (SELECT AVG(precioPlato) 
+											 FROM plato));
+											 

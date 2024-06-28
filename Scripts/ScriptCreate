@@ -1,0 +1,125 @@
+CREATE TABLE Departamento (
+	idDepartamento varchar(3) PRIMARY KEY UNIQUE,
+	nombreDepartamento varchar(50) NOT NULL
+);
+
+CREATE TABLE Ciudad (
+	idCiudad varchar(7) PRIMARY KEY UNIQUE,
+	nombreCiudad varchar(50) NOT NULL, 
+	idDepartamento varchar(3) NOT NULL,
+	CONSTRAINT FK_Departamento FOREIGN KEY (idDepartamento) REFERENCES Departamento (idDepartamento)
+);
+
+CREATE TABLE Restaurante(
+	idRestaurante serial PRIMARY KEY,
+	nitRestaurante varchar(12) NOT NULL UNIQUE, 
+	nombreRestaurante varchar(50) NOT NULL, 
+	direccionRestaurante varchar(30) NOT NULL,
+	telefonoRestaurante varchar(15) NOT NULL, 
+	idCiudad varchar(7) NOT NULL, 
+	CONSTRAINT FK_Ciudad FOREIGN KEY (idCiudad) REFERENCES Ciudad (idCiudad)
+);
+
+CREATE TABLE Categoria (
+	idCategoria serial PRIMARY KEY,
+	nombreCategoria varchar(30) NOT NULL UNIQUE
+);
+
+CREATE TABLE Plato(
+	idPlato serial PRIMARY KEY,
+	nombrePlato varchar(50) NOT NULL UNIQUE, 
+	descripcionPlato varchar(200) NOT NULL, 
+	precioPlato float NOT NULL, 
+	idRestaurante int NOT NULL, 
+	idCategoria int NOT NULL,
+	CONSTRAINT FK_Restaurante FOREIGN KEY (idRestaurante) REFERENCES Restaurante (idRestaurante),
+	CONSTRAINT FK_Categoria FOREIGN KEY (idCategoria) REFERENCES Categoria (idCategoria)
+);
+
+CREATE TABLE CategoriaIngrediente(
+	idCategoriaIngrediente serial PRIMARY KEY,
+	nombreCategoriaIngrediente varchar(30) NOT NULL UNIQUE
+);
+
+CREATE TABLE Ingrediente (
+	idIngrediente serial PRIMARY KEY,
+	nombreIngrediente varchar(50) NOT NULL UNIQUE, 
+	idCategoriaIngrediente int NOT NULL, 
+	cantidadIngrediente int NOT NULL, 
+	unidadMedidaIngrediente varchar(30) NOT NULL, 
+	idRestaurante int NOT NULL, 
+	CONSTRAINT FK_CategoriaIngrediente FOREIGN KEY (idCategoriaIngrediente) REFERENCES CategoriaIngrediente (idCategoriaIngrediente), 
+	CONSTRAINT FK_Restaurante FOREIGN KEY (idRestaurante) REFERENCES Restaurante (idRestaurante) 
+);
+
+CREATE TABLE IngredientePlato(
+	idIngredientePlato serial PRIMARY KEY,
+	idIngrediente int NOT NULL,
+	idPlato int NOT NULL,
+	cantidadIngredientePlato int NOT NULL, 
+	unidadMedidaIngredientePlato varchar(30) NOT NULL, 
+	CONSTRAINT FK_Ingrediente FOREIGN KEY (idIngrediente) REFERENCES Ingrediente (idIngrediente),
+	CONSTRAINT FK_Plato FOREIGN KEY (idPlato) REFERENCES Plato (idPlato)
+);
+
+CREATE TABLE MedioPago(
+	idMedioPago serial PRIMARY KEY,
+	nombreMedioPago varchar(30) NOT NULL UNIQUE
+);
+
+CREATE TABLE Rol(
+	idRol serial PRIMARY KEY, 
+	nombreRol varchar(30) NOT NULL UNIQUE
+);
+
+CREATE TABLE TipoIdentificacion(
+	idTipoIdentificacion serial PRIMARY KEY,
+	nombreTipoIdentificacion varchar(30) NOT NULL UNIQUE
+);
+
+CREATE TABLE Usuario(
+	idUsuario serial PRIMARY KEY,
+	identificacionUsuario varchar(15) NOT NULL UNIQUE,
+	idTipoIdentificacion int NOT NULL,
+	nombreUsuario varchar(50) NOT NULL,
+	fecharNacimientoUsuario date,
+	idRol int NOT NULL, 
+	correoElectronicoUsuario varchar(50) NOT NULL UNIQUE,
+	claveUsuario varchar(10) NOT NULL,
+	CONSTRAINT FK_TipoIdentificacion FOREIGN KEY (idTipoIdentificacion) REFERENCES TipoIdentificacion (idTipoIdentificacion),
+	CONSTRAINT FK_Rol FOREIGN KEY (idRol) REFERENCES Rol (idRol)
+);
+
+CREATE TABLE Direccion(
+	idDireccion serial PRIMARY KEY,
+	direccion varchar(30) NOT NULL UNIQUE,
+	direcciondefecto bit NOT NULL,
+	idUsuario int NOT NULL,
+	idCiudad varchar(7) NOT NULL,
+	CONSTRAINT FK_Usuario FOREIGN KEY (idUsuario) REFERENCES Usuario (idUsuario),
+	CONSTRAINT FK_Ciudad FOREIGN KEY (idCiudad) REFERENCES Ciudad (idCiudad)
+);
+
+CREATE TABLE Compra(
+	idCompra serial PRIMARY KEY,
+	idUsuarioCliente int NOT NULL, 
+	idUsuarioEmpleado int NOT NULL, 
+	fechaCompra timestamp NOT NULL, 
+	direccionDomicilio varchar(30) NOT NULL, 
+	descuentoCompra float NOT NULL, 
+	ivaCompra float NOT NULL, 
+	valoracionCompra int NOT NULL, 
+	idMedioPago int NOT NULL, 
+	CONSTRAINT FK_Cliente FOREIGN KEY (idUsuarioCliente) REFERENCES Usuario (idUsuario),
+	CONSTRAINT FK_Empleado FOREIGN KEY (idUsuarioEmpleado) REFERENCES Usuario (idUsuario),
+	CONSTRAINT FK_MedioPago FOREIGN KEY (idMedioPago) REFERENCES MedioPago (idMedioPago)
+);
+
+CREATE TABLE PlatoCompra(
+	idPlatoCompra serial PRIMARY KEY,
+	idCompra int NOT NULL, 
+	idPlato int NOT NULL,
+	cantidadPlato int NOT NULL,
+	CONSTRAINT FK_Compra FOREIGN KEY (idCompra) REFERENCES Compra (idCompra),
+	CONSTRAINT FK_PLatoCompra FOREIGN KEY (idPlato) REFERENCES Plato (idPlato)
+);

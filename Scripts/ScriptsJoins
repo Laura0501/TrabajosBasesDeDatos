@@ -1,0 +1,15 @@
+SELECT nombrePlato FROM plato p
+INNER JOIN platoCompra pc ON p.idPlato = pc.idPlato
+INNER JOIN compra c ON pc.idCompra = c.idCompra
+WHERE idUsuarioCliente = 1
+GROUP BY nombrePlato
+
+SELECT nombrePlato FROM plato p
+LEFT JOIN platoCompra pc ON p.idPlato = pc.idPlato
+LEFT JOIN compra c ON pc.idCompra = c.idCompra
+WHERE idUsuarioCliente = 1
+
+SELECT nombrePlato FROM plato p
+RIGHT JOIN platoCompra pc ON p.idPlato = pc.idPlato
+RIGHT JOIN compra c ON pc.idCompra = c.idCompra
+WHERE idUsuarioCliente = 1

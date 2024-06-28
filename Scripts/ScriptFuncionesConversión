@@ -1,0 +1,20 @@
+--Convierte el precio de los platos a números enteros.
+SELECT nombrePlato, CAST(precioPlato AS INTEGER) AS precio_entero
+FROM Plato;
+
+--Convierte la fecha de compra en la tabla "Compra" a formato de texto.
+SELECT fechaCompra, TO_CHAR(fechaCompra, 'DD/MM/YYYY HH:MM') AS fecha_compra_texto
+FROM Compra;
+
+--Convierte la valoración de las compras a porcentaje (de 0 a 100).
+SELECT valoracionCompra, (valoracionCompra * 100/5) AS porcentaje_valoracion
+FROM Compra;
+
+--Convierte la cantidad de ingredientes a números decimales.
+SELECT nombreIngrediente, CAST(cantidadIngrediente AS DECIMAL(5,2)) AS cantidad_decimal
+FROM Ingrediente;
+
+--Extrae el año de la fecha de compra en la tabla "Compra".
+SELECT fechaCompra, EXTRACT(YEAR FROM fechaCompra) AS año_compra
+FROM Compra;
+
